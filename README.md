@@ -18,4 +18,4 @@ Running the application:
 
 2. Run ```npm install```
 
-3. Look at the app at ```http://localhost:1337```
+3. Run ```node index.js`` and look at the app at ```http://localhost:1337```
