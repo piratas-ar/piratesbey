@@ -11,18 +11,20 @@ exec(open("./db.py").read())
 
 def process_csv_torrent(id, path):
   source = 'http://thepiratebay.se/torrent/'+id
-  if 
-  csv_reader =  csv.reader(open(path+'/details.csv', newline="\n"), delimiter=',', quotechar='"')
-  next(csv_reader)
-  data = next(csv_reader)
-  m = re.search('\((.+?) Bytes', data[3])
-  if m:
-    size = m.group(1)
-  else:
-    size = 0
-  nfo = open(path+'/description.txt').read()
-  
-  return '(%s, %s, %s, %s, %s, %s)',(data[10],data[15],source,data[0],size,nfo)
+  if not get_torrent_by_source_url(source): 
+    csv_reader =  csv.reader(open(path+'/details.csv', newline="\n"), delimiter=',', quotechar='"')
+    next(csv_reader)
+    data = next(csv_reader)
+    m = re.search('\((.+?) Bytes', data[3])
+    if m:
+      size = m.group(1)
+    else:
+      size = 0
+    nfo = open(path+'/description.txt').read()
+    
+    return '(%s, %s, %s, %s, %s, %s)',(data[10],data[15],source,data[0],size,nfo)
+  else: 
+    return '',()
 
 csv_path = 'sources/'
 i=1
