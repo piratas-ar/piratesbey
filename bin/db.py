@@ -2,7 +2,7 @@ import mysql.connector as mdb
 
 # Connect to database
 try:
-  con = mdb.connect(host='localhost', user='root', passwd='realslimshady', db='piratesbey');
+  con = mdb.connect(host='localhost', user='root', passwd='', db='piratesbey');
   cur = con.cursor()
 
 except mdb.Error as e:
