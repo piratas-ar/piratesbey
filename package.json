@@ -17,9 +17,10 @@
     "site"
   ],
   "dependencies": {
-    "express": "*",
+    "express": "3.6",
     "mysql": "*",
-    "es": "*"
+    "es": "*",
+    "express-handlebars": "*"
   },
   "author": "piratas-ar",
   "license": "GPLv2",
