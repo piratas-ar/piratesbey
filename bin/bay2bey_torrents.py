@@ -6,8 +6,8 @@ from datetime import datetime
 exec(open("./db.py").read())
 
 source_site = 'http://thepiratebay.ee'
-min_tpb_id = 8599995
-max_tpb_id = 11000000
+min_tpb_id = 8604743
+max_tpb_id = 11671120
 
 for id in range(min_tpb_id, max_tpb_id+1):
 
@@ -48,8 +48,10 @@ for id in range(min_tpb_id, max_tpb_id+1):
           size= int(float(size.rstrip('MB'))*1024*1024)
         elif size.find('KB') != -1:
           size= int(float(size.rstrip('KB'))*1024)
+        elif size.find('B') != -1:
+          size= int(float(size.rstrip('B')))
         else:
-          size= int(size)
+          size= 0
 
         nfo = tree.xpath('//div[@class="nfo"]/pre')[0]
         nfo = html.tostring(nfo)
