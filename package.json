@@ -1,0 +1,28 @@
+{
+  "name": "piratesbey",
+  "version": "1.0.0",
+  "description": "The Pirate Bay",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piratas-ar/piratesbey"
+  },
+  "keywords": [
+    "the",
+    "pirate",
+    "bay",
+    "site"
+  ],
+  "dependencies": {
+    "express": "*",
+    "mysql": "*",
+    "es": "*"
+  },
+  "author": "piratas-ar",
+  "license": "GPLv2",
+  "readmeFilename": "README.md",
+  "gitHead": "f91f68353359ca46eb8ab79f2e5c0ab1aae8f5b1"
+}
