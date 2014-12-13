@@ -99,7 +99,7 @@ var prepareElasticSearch = function (javaHome, uncompress) {
     if (err) {
       throw new Error("Java not found:", err);
     }
-    if (javaHome.indexOf("1.7") === -1) {
+    if (javaHome.indexOf("7") === -1) {
       throw new Error("Java 1.7 required.");
     }
 

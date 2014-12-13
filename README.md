@@ -46,3 +46,6 @@ the installation instructions and the site will use it by default.
 
 New torrents added to the database will be automatically synchronized with the
 search engine.
+
+Remember to configure your firewall to allow connections from ports 9200:9400 in
+order to make the nodes see each other in the cluster.
