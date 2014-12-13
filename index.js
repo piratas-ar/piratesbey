@@ -2,10 +2,24 @@ var path = require("path");
 var fs = require("fs");
 var express = require('express');
 var exphbs  = require('express-handlebars');
+var DataSource = require("./lib/DataSource");
 var PirateNode = require("./lib/PirateNode");
-var node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"));
+var node;
+var env = process.env.NODE_ENV;
+var shutdown = function () {
+  node.shutdown(function () {
+    console.log("Bye.");
+    process.exit();
+  });
+};
 
 app = express();
+
+if (env) {
+  app.config = JSON.parse(fs.readFileSync("config." + env + ".json").toString());
+} else {
+  app.config = JSON.parse(fs.readFileSync("config.json").toString());
+}
 
 // Global configuration.
 app.engine('html', exphbs({ defaultLayout: 'main.html' }));
@@ -35,17 +49,39 @@ fs.readdir(path.join(__dirname, "app"), function (err, files) {
   });
 });
 
-console.log("Starting elastic search node...");
-node.start(function () {
-  process.on('SIGINT', function() {
-    console.log("Stopping elastic search node.");
+node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"),
+  app.config);
 
-    node.shutdown(function () {
-      console.log("Bye");
-      process.exit();
-    });
+console.log("Starting elastic search instance...");
+node.start(function () {
+  var dataSource = new DataSource(app.config);
+
+  process.on('SIGINT', function() {
+    console.log("Stopping elastic search node...");
+    shutdown();
   });
 
-  app.listen(1337);
-  console.log("Application ready at http://localhost:1337");
+  if (env !== "production") {
+    console.log("Loading test data...");
+
+    dataSource.setupDatabase(function (err) {
+      if (err) {
+        shutdown();
+        console.trace(err);
+        return;
+      }
+      console.log("Creating index...");
+
+      node.setupIndex(function (err) {
+        if (err) {
+          throw err;
+        }
+        app.listen(1337);
+        console.log("Application ready at http://localhost:1337");
+      });
+    });
+  } else {
+    app.listen(1337);
+    console.log("Application ready at http://localhost:1337");
+  }
 });

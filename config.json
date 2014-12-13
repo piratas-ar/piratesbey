@@ -1,0 +1,9 @@
+{
+  "dataSource": {
+    "url": "mysql://localhost:3306/piratesbey_dev",
+    "host": "localhost",
+    "user": "piratesbey",
+    "password": "piratesbey",
+    "database": "piratesbey_dev"
+  }
+}

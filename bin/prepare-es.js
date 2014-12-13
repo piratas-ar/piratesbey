@@ -10,12 +10,12 @@ var ES_URL = "https://download.elasticsearch.org/elasticsearch/elasticsearch/" +
 var RIVER_URL = " http://xbib.org/repository" +
   "/org/xbib/elasticsearch/plugin/elasticsearch-river-jdbc/1.3.4.4/" +
   "elasticsearch-river-jdbc-1.3.4.4-plugin.zip"
-var MYSQL_DRIVER_URL = "https://dev.mysql.com/get/Downloads/Connector-J/" +
-  "mysql-connector-java-5.1.34.tar.gz"
+var MYSQL_DRIVER_URL = "http://dev.mysql.com/get/Downloads/Connector-J/" +
+  "mysql-connector-java-5.1.34.zip/from/http://cdn.mysql.com/"
 var ES_DIR = path.join(__dirname, "elasticsearch-1.3.6")
+var RIVER_DIR = path.join(ES_DIR, "plugins", "jdbc");
 var ES_FILE = path.join(__dirname, "elasticsearch-1.3.6.zip");
-var MYSQL_DRIVER_FILE = path.join(ES_DIR, "plugins", "jdbc",
-  "mysql-connector-java.jar");
+var MYSQL_DRIVER_FILE = path.join(RIVER_DIR, "mysql-connector-java.zip");
 var esFileStream;
 
 var installDriver = function () {
@@ -24,7 +24,15 @@ var installDriver = function () {
   console.log("Downloading MySQL driver for java.");
 
   driverStream.on("close", function () {
-    console.log("Elastic search ready.")
+    unzip(MYSQL_DRIVER_FILE, { dir: RIVER_DIR }, function (err) {
+      if (err) {
+        throw new Error("Cannot unzip MySQL driver:", err);
+      }
+      fs.renameSync(path.join(RIVER_DIR, "mysql-connector-java-5.1.34",
+        "mysql-connector-java-5.1.34-bin.jar"),
+        path.join(RIVER_DIR, "mysql-connector-java.jar"));
+      console.log("Elastic search ready.")
+    });
   });
 
   request(MYSQL_DRIVER_URL).pipe(driverStream);
