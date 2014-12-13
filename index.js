@@ -2,6 +2,8 @@ var path = require("path");
 var fs = require("fs");
 var express = require('express');
 var exphbs  = require('express-handlebars');
+var PirateNode = require("./lib/PirateNode");
+var node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"));
 
 app = express();
 
@@ -33,4 +35,17 @@ fs.readdir(path.join(__dirname, "app"), function (err, files) {
   });
 });
 
-app.listen(1337);
+console.log("Starting elastic search node...");
+node.start(function () {
+  process.on('SIGINT', function() {
+    console.log("Stopping elastic search node.");
+
+    node.shutdown(function () {
+      console.log("Bye");
+      process.exit();
+    });
+  });
+
+  app.listen(1337);
+  console.log("Application ready at http://localhost:1337");
+});

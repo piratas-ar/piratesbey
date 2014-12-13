@@ -12,10 +12,22 @@ torrent, mientras tanto:
 
 # The Pirate Bey
 
+Requirements:
+
+* Node JS
+
+* Java 7
+
 Running the application:
 
 1. Clone this repository
 
 2. Run ```npm install```
 
-3. Run ```node index.js`` and look at the app at ```http://localhost:1337```
+3. Run ```node index.js``` and look at the app at ```http://localhost:1337```
+
+## Search engine
+
+It uses [Elastic Search](http://www.elasticsearch.org/overview/elasticsearch) to
+create a distributed search engine for torrents. Anyone will be able to join the
+network to host the bigger torrents database in the world.

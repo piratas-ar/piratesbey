@@ -4,7 +4,8 @@
   "description": "The Pirate Bay",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node ./bin/prepare-es.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,14 @@
   "dependencies": {
     "express": "3.6",
     "mysql": "*",
-    "es": "*",
-    "express-handlebars": "*"
+    "elasticsearch": "*",
+    "express-handlebars": "*",
+    "extend": "*"
+  },
+  "devDependencies": {
+    "request": "*",
+    "unzip": "*",
+    "find-java-home": "*"
   },
   "author": "piratas-ar",
   "license": "GPLv2",
