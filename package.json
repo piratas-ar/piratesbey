@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "request": "*",
-    "unzip": "*",
+    "extract-zip": "*",
     "find-java-home": "*"
   },
   "author": "piratas-ar",
