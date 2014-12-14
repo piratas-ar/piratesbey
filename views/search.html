@@ -1,0 +1,6 @@
+<p>{{results.total}} results</p>
+
+{{#each results.hits}}
+  <a href="/torrent?h={{hash}}">{{title}}</a>
+  <hr>
+{{/each}}
