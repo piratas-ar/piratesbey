@@ -10,13 +10,13 @@ torrent, mientras tanto:
 * http://www.karelbilek.com/piratebay/
 * https://github.com/tpb-archive/8xxxxxx
 
-# The Pirate Bey
+# The Pirate's Bey
 
 Requirements:
 
 * Node JS
 
-* Java 7
+* Java 7 (for elasticsearch)
 
 Running the application:
 
@@ -49,3 +49,35 @@ search engine.
 
 Remember to configure your firewall to allow connections from ports 9200:9400 in
 order to make the nodes see each other in the cluster.
+
+# Cargar Sources y Scrapear TPB(s)
+
+Los scripts estan tan optimizados como fue posible, los sources no estan
+incluidos (por ahora).
+
+ bin/db.py
+ ---------
+ con = mdb.connect(host='localhost', user='root', passwd='', db='piratesbey');
+
+
+Cargar desde un mirror
+ python bay2bey_torrents.py 
+ --------------------------
+ source_site = 'http://oldpiratebay.org'
+ min_tpb_id = 3211594
+ max_tpb_id = 11671120
+
+Cargar desde un backup en formato csv (tpb-archive)
+ python csv2bey_torrents.py
+ --------------------------
+ csv_path = 'sources/'
+ min_tpb_id = 3211594
+ max_tpb_id = 11671120
+
+Cargar desde un backup en formato xml (karel)
+ python xml2bey_torrents.py
+ --------------------------
+ python xml2bey_comments.py
+ --------------------------
+ xml_path = 'sources/rich-and-valid.xml'
+ min_tpb_id = 3211594
