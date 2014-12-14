@@ -61,7 +61,7 @@ def process_torrent_bay(page, source):
   except Exception as err:
     print(err)
 
-min_tpb_id = 8610000
+min_tpb_id = 8618000
 max_tpb_id = 11671120
 failed = []
 
@@ -84,16 +84,24 @@ def load_id(id):
 def main():
   global failed 
   round = 0
-  while min_tpb_id + round*100 < max_tpb_id+1:
+  rate = 500
+  while min_tpb_id + round*rate < max_tpb_id+1:
     round += 1
     coros = []
-    for id in range(min_tpb_id,min(min_tpb_id + round*100 ,max_tpb_id+1)):
+    before = time.time()
+
+    for id in range(min_tpb_id,min(min_tpb_id + round*rate ,max_tpb_id+1)):
       coros.append(asyncio.Task(load_id(id)))
+
     for id in failed:
+      print('Retrying '+id)
       coros.append(asyncio.Task(load_id(id)))
+    
     yield from asyncio.gather(*coros)
+    print(str(time.time() - before) + ' sec x round of ' + str(rate+len(failed)) )
+    before = time.time()
     failed = []
 
-sem = asyncio.Semaphore(8)
+sem = asyncio.Semaphore(14)
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
