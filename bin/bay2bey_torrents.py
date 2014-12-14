@@ -53,6 +53,7 @@ def process_torrent_bay(page, source):
 
         nfo = tree.xpath('//div[@class="nfo"]/pre')[0]
         nfo = html.tostring(nfo)
+        nfo = nfo.strip()
         nfo = str(nfo[5:-6])
 
         save_torrent(uploaded, hash, source, str(title), size, nfo)
@@ -61,7 +62,7 @@ def process_torrent_bay(page, source):
   except Exception as err:
     print(err)
 
-min_tpb_id = 8618000
+min_tpb_id = 8624900
 max_tpb_id = 11671120
 failed = []
 
