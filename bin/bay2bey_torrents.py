@@ -1,32 +1,30 @@
 from lxml import html, etree
-import requests
-import re
 from datetime import datetime
+import asyncio, aiohttp, re, time
 
 exec(open("./db.py").read())
 
-source_site = 'http://thepiratebay.ee'
-min_tpb_id = 8604743
-max_tpb_id = 11671120
-
-for id in range(min_tpb_id, max_tpb_id+1):
-
-  source = 'http://thepiratebay.se/torrent/'+str(id)
-  
-  if not get_torrent_by_source_url(source):
-
-    page = requests.get(source_site+'/torrent/'+str(id)+'/zez/')
-    tree = html.fromstring(page.text)
-    page_title = tree.xpath('//title/text()')[0]
+def process_torrent_bay(page, source):
+  try:
+    tree = html.fromstring(page)
+    page_title = tree.xpath('//title/text()')
+    if len(page_title) == 0:
+      return
+    page_title = page_title[0]
 
     if page_title != "Download music, movies, games, software! The Pirate Bay - The world's most resilient BitTorrent site":
 
-      m = re.search('magnet:\?xt=urn:btih:(.*?)(&|")', page.text)
+      m = re.search('magnet:\?xt=urn:btih:(.*?)(&|")', page)
       if m:
         hash = m.group(1)
-        title = tree.xpath('//div[@id="title"]/text()')[0]
 
-        m = re.search('dt>Uploaded:</dt[^<]*<dd>(.*?)<', page.text)
+        title = tree.xpath('//div[@id="title"]/text()')
+        if title: 
+          title = title[0]
+        else:
+          title = tree.xpath('//div[@id="title"]/a/text()')[0]
+
+        m = re.search('dt>Uploaded:</dt[^<]*<dd>(.*?)<', page)
         if m:
           dt = datetime.strptime(m.group(1),'%b %d, %Y')
           f = '%Y-%m-%d %H:%M:%S'
@@ -34,7 +32,7 @@ for id in range(min_tpb_id, max_tpb_id+1):
         else:
           uploaded = ''
 
-        m = re.search('dt>Size:</dt[^<]*<dd>(.*?)<', page.text)
+        m = re.search('dt>Size:</dt[^<]*<dd>(.*?)<', page)
         if m:
           size = m.group(1)
         else:
@@ -60,5 +58,42 @@ for id in range(min_tpb_id, max_tpb_id+1):
         save_torrent(uploaded, hash, source, str(title), size, nfo)
         con.commit()
         print(source)
-  
+  except Exception as err:
+    print(err)
+
+min_tpb_id = 8610000
+max_tpb_id = 11671120
+failed = []
+
+def load_id(id):
+  source_site = 'http://oldpiratebay.org'
+  source = 'http://thepiratebay.se/torrent/'+str(id)
+  url = source_site+'/torrent/'+str(id)+'/zez/'
+  with (yield from sem):
+    try:
+      if not get_torrent_by_source_url(source):
+        response = yield from aiohttp.request('GET', url, allow_redirects=True, compress=True)
+        if response and response.status == 200:
+          page = yield from response.read_and_close()
+          process_torrent_bay(str(page), source)
+    except Exception as err:
+      print('fail '+url)
+      print(err)
+      failed.append(id)
     
+def main():
+  global failed 
+  round = 0
+  while min_tpb_id + round*100 < max_tpb_id+1:
+    round += 1
+    coros = []
+    for id in range(min_tpb_id,min(min_tpb_id + round*100 ,max_tpb_id+1)):
+      coros.append(asyncio.Task(load_id(id)))
+    for id in failed:
+      coros.append(asyncio.Task(load_id(id)))
+    yield from asyncio.gather(*coros)
+    failed = []
+
+sem = asyncio.Semaphore(8)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
