@@ -55,29 +55,29 @@ order to make the nodes see each other in the cluster.
 Los scripts estan tan optimizados como fue posible, los sources no estan
 incluidos (por ahora).
 
- bin/db.py
- ---------
- con = mdb.connect(host='localhost', user='root', passwd='', db='piratesbey');
+    bin/db.py
+    ---------
+    con = mdb.connect(host='localhost', user='root', passwd='', db='piratesbey');
 
 
 Cargar desde un mirror
- python bay2bey_torrents.py 
- --------------------------
- source_site = 'http://oldpiratebay.org'
- min_tpb_id = 3211594
- max_tpb_id = 11671120
+    python bay2bey_torrents.py 
+    --------------------------
+    source_site = 'http://oldpiratebay.org'
+    min_tpb_id = 3211594
+    max_tpb_id = 11671120
 
 Cargar desde un backup en formato csv (tpb-archive)
- python csv2bey_torrents.py
- --------------------------
- csv_path = 'sources/'
- min_tpb_id = 3211594
- max_tpb_id = 11671120
+    python csv2bey_torrents.py
+    --------------------------
+    csv_path = 'sources/'
+    min_tpb_id = 3211594
+    max_tpb_id = 11671120
 
 Cargar desde un backup en formato xml (karel)
- python xml2bey_torrents.py
- --------------------------
- python xml2bey_comments.py
- --------------------------
- xml_path = 'sources/rich-and-valid.xml'
- min_tpb_id = 3211594
+    python xml2bey_torrents.py
+    --------------------------
+    python xml2bey_comments.py
+    --------------------------
+    xml_path = 'sources/rich-and-valid.xml'
+    min_tpb_id = 3211594
