@@ -1,6 +1,14 @@
 <p>{{results.total}} results</p>
 
 {{#each results.hits}}
-  <a href="/torrent?h={{hash}}">{{title}}</a>
-  <hr>
+<div class="torrent">
+  <div class="small-left">
+    <span class="magnet">{{{magnet hash}}}</span>
+    <span class="size">{{{size size}}}</span>
+  </div>
+  <div class="big-right">
+    <a class="title" href="/torrent?h={{hash}}">{{title}}</a>
+    <span class="uploaded">{{{formatDate uploaded 'short'}}}</span>
+  </div>
+</div>
 {{/each}}

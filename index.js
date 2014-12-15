@@ -2,6 +2,7 @@ var path = require("path");
 var fs = require("fs");
 var express = require('express');
 var exphbs  = require('express-handlebars');
+var helpers = require('./lib/helpers');
 var DataSource = require("./lib/DataSource");
 var PirateNode = require("./lib/PirateNode");
 var node;
@@ -22,7 +23,7 @@ if (env) {
 }
 
 // Global configuration.
-app.engine('html', exphbs({ defaultLayout: 'main.html' }));
+app.engine('html', exphbs({ defaultLayout: 'main.html', helpers: helpers }) );
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 
@@ -61,7 +62,9 @@ node.start(function () {
     shutdown();
   });
 
-  if (env !== "production") {
+  console.log('Enviroment: ' + env)
+
+  if (env !== "production" && env != "staging" ) {
     console.log("Loading test data...");
 
     dataSource.setupDatabase(function (err) {
@@ -82,7 +85,9 @@ node.start(function () {
         console.log("Application ready at http://localhost:1337");
       });
     });
-  } else {
+ } else {
+    app.search = node.search;
+    app.fullSearch = node.fullSearch;
     app.listen(1337);
     console.log("Application ready at http://localhost:1337");
   }

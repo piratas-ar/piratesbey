@@ -61,6 +61,7 @@ incluidos (por ahora).
 
 
 Cargar desde un mirror
+
     python bay2bey_torrents.py 
     --------------------------
     source_site = 'http://oldpiratebay.org'
@@ -68,6 +69,7 @@ Cargar desde un mirror
     max_tpb_id = 11671120
 
 Cargar desde un backup en formato csv (tpb-archive)
+
     python csv2bey_torrents.py
     --------------------------
     csv_path = 'sources/'
@@ -75,6 +77,7 @@ Cargar desde un backup en formato csv (tpb-archive)
     max_tpb_id = 11671120
 
 Cargar desde un backup en formato xml (karel)
+
     python xml2bey_torrents.py
     --------------------------
     python xml2bey_comments.py
