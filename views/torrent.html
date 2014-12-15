@@ -1,4 +1,13 @@
-<h1>{{torrent.title}}</h1>
-<h2>{{torrent.uploaded}} ({{torrent.size}} bytes)</h2>
-<h3>{{torrent.hash}}</h3>
-<p>{{{torrent.nfo}}}</p>
+<article class="torrent">
+  <h1 class="title">{{torrent.title}}</h1>
+  <dl>
+    <dt>Uploaded</dt>
+    <dd>{{formatDate torrent.uploaded}}</dd>
+    <dt>Size</dt>
+    <dd>{{size torrent.size}}</dd>
+    <dt>Info Hash:</dt>
+    <dd>{{torrent.hash}}</dd>
+  </dl>
+  <p>{{{magnet torrent.hash 'big'}}}</p>
+  <p><pre>{{{torrent.nfo}}}</pre></p>
+</article>

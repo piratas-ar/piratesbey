@@ -9,9 +9,13 @@
       #promo p { margin: 0 0 0.8em 0; }
       #promo, #main-search, #arenga, footer {text-align: center; margin:0 auto; }
       #arenga { font-family: tpb; font-size:2em; width: 50%; min-width:600px; }
+      #main { width: 100%; max-width: 800px; margin:0 auto; }
       #main-search { width: 36%; min-width: 460px; }
       #main-search-field {width: 100%; }
       #main-search input {font-size:1em; line-height: 1.6em; height: 2em;}
+
+      dl dt { float: left; display:block; width: 140px; font-weight: bold; }
+      dl dd { display:block; }
 
       .torrent { 
         margin: 0; 
@@ -41,8 +45,9 @@
     </style>
   </head>
   <body>
+    <section id="main">
     {{{body}}}
-
+    </section>
     <footer>The Pirate's Bey</foorter>
   </body>
 </html>
