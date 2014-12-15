@@ -100,7 +100,7 @@ var prepareElasticSearch = function (javaHome, uncompress) {
       throw new Error("Java not found:", err);
     }
     if (javaHome.indexOf("7") === -1) {
-      throw new Error("Java 1.7 required.");
+    //  throw new Error("Java 1.7 required.");
     }
 
     if (!fs.existsSync(ES_FILE) && !fs.existsSync(ES_DIR)) {

@@ -87,3 +87,7 @@ node.start(function () {
     console.log("Application ready at http://localhost:1337");
   }
 });
+
+node.on("error", function (err) {
+  console.log(err.toString());
+});
