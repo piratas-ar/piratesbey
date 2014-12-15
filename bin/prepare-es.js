@@ -93,14 +93,38 @@ var prepareElasticSearch = function (javaHome, uncompress) {
   }
 };
 
-(function prepareEnvironment() {
+var checkJava = function (callback) {
   findJavaHome(function (err, javaHome) {
+    var javaBin;
 
     if (err) {
-      throw new Error("Java not found:", err);
+      return callback(new Error("Java not found: " + err));
     }
-    if (javaHome.indexOf("7") === -1) {
-    //  throw new Error("Java 1.7 required.");
+
+    javaBin = path.join(javaHome, "bin", "java");
+
+    exec(javaBin + " -version", function (err, stdout, stderr) {
+      var versionInfo = stderr && stderr.toString();
+
+      if (err) {
+        return callback(new Error("Java not found: " + err));
+      }
+
+      if (versionInfo.indexOf("1.7") === -1) {
+        return callback(new Error("Java 1.7 required. Current: " + versionInfo));
+      }
+
+      console.log("Java - OK");
+
+      callback(null, javaHome);
+    });
+  });
+};
+
+(function prepareEnvironment() {
+  checkJava(function (err, javaHome) {
+    if (err) {
+      throw err;
     }
 
     if (!fs.existsSync(ES_FILE) && !fs.existsSync(ES_DIR)) {
