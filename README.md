@@ -9,6 +9,7 @@ torrent, mientras tanto:
 
 * http://www.karelbilek.com/piratebay/
 * https://github.com/tpb-archive/8xxxxxx
+* https://www.reddit.com/r/thepiratebay/comments/2p4b6h/20140918_latest_dump_of_thepiratebayse_index/
 
 # The Pirate's Bey
 
@@ -84,3 +85,11 @@ Cargar desde un backup en formato xml (karel)
     --------------------------
     xml_path = 'sources/rich-and-valid.xml'
     min_tpb_id = 3211594
+
+Cargar desde un backup en formato csv (reddit)
+    python csv2bey2_torrents.py
+    ---------------------------
+    csv_path = 'sources/tpb.txt'
+
+Si te da error de byte NULL simplemente buscalo y borralo
+    grep -Pan '\x00' ../sources/tpb-9-14.txt

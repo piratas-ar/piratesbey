@@ -39,5 +39,7 @@ CREATE TABLE IF NOT EXISTS torrents (
   source varchar(255) NOT NULL UNIQUE,
   title varchar(511) NOT NULL,
   size int(11) NOT NULL DEFAULT 0,
-  nfo text NOT NULL DEFAULT ''
+  nfo text NOT NULL DEFAULT '',
+  seeders int(7) NOT NULL DEFAULT 0,
+  leechers int(7) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
