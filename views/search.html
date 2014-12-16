@@ -1,14 +1,21 @@
 <p>{{results.total}} results</p>
 
+{{{pagination results query from}}}
+
 {{#each results.hits}}
-<div class="torrent">
-  <div class="small-left center">
+<div class="torrent row">
+  <div class="col-sm-1 center small-font">
     <span class="magnet">{{{magnet hash 'small'}}}</span>
     <span class="size">{{{size size}}}</span>
   </div>
-  <div class="big-right">
+  <div class="col-sm-10">
     <a class="title" href="/torrent?h={{hash}}">{{title}}</a>
-    <span class="uploaded">{{{formatDate uploaded}}}</span>
+    <span class="uploaded small-font">{{{formatDate uploaded}}}</span>
+  </div>
+  <div class="col-sm-1 center">
+    <span class="seeders">{{{seeders}}}</span> / <span class="leechers small-font">{{{leechers}}}</span>
   </div>
 </div>
 {{/each}}
+
+{{{pagination results query from}}}

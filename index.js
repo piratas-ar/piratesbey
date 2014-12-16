@@ -86,10 +86,16 @@ node.start(function () {
       });
     });
  } else {
-    app.search = node.search;
-    app.fullSearch = node.fullSearch;
-    app.listen(1337);
-    console.log("Application ready at http://localhost:1337");
+/* Descomentar para regenerar indices
+   node.setupIndex(function (err) {
+      if (err) {
+        throw err;
+      } */
+      app.search = node.search;
+      app.fullSearch = node.fullSearch;
+      app.listen(1337);
+      console.log("Application ready at http://localhost:1337");
+//    });
   }
 });
 

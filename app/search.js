@@ -12,7 +12,9 @@ app.get("/search", function (req, res) {
           hits: results.hits.hits && results.hits.hits.map(function (result) {
             return result._source;
           })
-        }
+        },
+        query: query,
+        from: from
       });
     }
   });
