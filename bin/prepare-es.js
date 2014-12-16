@@ -44,7 +44,11 @@ var installRiver = function (javaHome, callback) {
 
   console.log("Installing plugin to import data from MySQL.");
 
-  exec(commandLine, function (err, stdout, stderr) {
+  exec(commandLine, {
+    env: {
+      JAVA_HOME: javaHome
+    }
+  }, function (err, stdout, stderr) {
 
     if (err) {
       console.log(stderr);
@@ -99,6 +103,10 @@ var checkJava = function (callback) {
 
     if (err) {
       return callback(new Error("Java not found: " + err));
+    }
+
+    if (process.env.JAVA_HOME) {
+      javaHome = process.env.JAVA_HOME;
     }
 
     javaBin = path.join(javaHome, "bin", "java");

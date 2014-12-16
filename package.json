@@ -22,12 +22,12 @@
     "mysql": "*",
     "elasticsearch": "*",
     "express-handlebars": "*",
-    "extend": "*"
+    "extend": "*",
+    "find-java-home": "*"
   },
   "devDependencies": {
     "request": "*",
-    "extract-zip": "*",
-    "find-java-home": "*"
+    "extract-zip": "*"
   },
   "author": "piratas-ar",
   "license": "GPLv2",
