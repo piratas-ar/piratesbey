@@ -7,6 +7,7 @@ var DataSource = require("./lib/DataSource");
 var PirateNode = require("./lib/PirateNode");
 var node;
 var env = process.env.NODE_ENV;
+var configFile = path.join(__dirname, "config." + env + ".json");
 var shutdown = function () {
   node.shutdown(function () {
     console.log("Bye.");
@@ -15,11 +16,11 @@ var shutdown = function () {
 };
 
 app = express();
+app.config = JSON.parse(fs.readFileSync("config.json").toString());
 
-if (env) {
-  app.config = JSON.parse(fs.readFileSync("config." + env + ".json").toString());
-} else {
-  app.config = JSON.parse(fs.readFileSync("config.json").toString());
+if (fs.existsSync(configFile)) {
+  app.config = extend(app.config,
+    JSON.parse(fs.readFileSync(configFile).toString()));
 }
 
 // Global configuration.
