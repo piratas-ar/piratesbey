@@ -20,13 +20,20 @@ def process_torrent_bay(page, source):
 
         title = tree.xpath('//div[@id="title"]/text()')
         if title: 
-          title = title[0]
+          title = title[0].strip(' \n\r\t\f\\n\\r\\t\\f')
         else:
-          title = tree.xpath('//div[@id="title"]/a/text()')[0]
+          title = tree.xpath('//div[@id="title"]/a/text()')[0].strip(' \n\r\t\f\\n\\r\\t\\f')
 
         m = re.search('dt>Uploaded:</dt[^<]*<dd>(.*?)<', page)
+        raw_date= m.group(1)
         if m:
-          dt = datetime.strptime(m.group(1),'%b %d, %Y')
+          if raw_date.find('-') != -1 and raw_date.find(',') == -1:
+            dt = datetime.strptime(m.group(1),'%Y-%m-%d %H:%M:%S')
+          elif raw_date.find('-') == -1 and raw_date.find(',') != -1:
+            dt = datetime.strptime(m.group(1),'%b %d, %Y')
+          else:
+            print('unknown date format ' + raw_date)
+
           f = '%Y-%m-%d %H:%M:%S'
           uploaded = dt.strftime(f)
         else:
@@ -35,6 +42,8 @@ def process_torrent_bay(page, source):
         m = re.search('dt>Size:</dt[^<]*<dd>(.*?)<', page)
         if m:
           size = m.group(1)
+          size = size.replace('&nbsp;',' ')
+          size = size.replace('i','')
         else:
           size = '0'
 
@@ -62,12 +71,12 @@ def process_torrent_bay(page, source):
   except Exception as err:
     print(err)
 
-min_tpb_id = 8624900
+min_tpb_id = 11049572
 max_tpb_id = 11671120
 failed = []
 
 def load_id(id):
-  source_site = 'http://oldpiratebay.org'
+  source_site = 'http://thepiratebay.com.ua'
   source = 'http://thepiratebay.se/torrent/'+str(id)
   url = source_site+'/torrent/'+str(id)+'/zez/'
   with (yield from sem):
