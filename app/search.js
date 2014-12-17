@@ -3,6 +3,7 @@ app.get("/search", function (req, res) {
   var from = req.param("f");
 
   app.search(query, { from: from }, function (err, results) {
+    res.locals.is_home = false;
     if (err) {
       res.send(500, err);
     } else {

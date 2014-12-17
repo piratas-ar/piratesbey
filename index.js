@@ -5,6 +5,7 @@ var exphbs  = require('express-handlebars');
 var helpers = require('./lib/helpers');
 var DataSource = require("./lib/DataSource");
 var PirateNode = require("./lib/PirateNode");
+var extend = require("extend");
 var node;
 var env = process.env.NODE_ENV;
 var configFile = path.join(__dirname, "config." + env + ".json");
@@ -24,7 +25,7 @@ if (fs.existsSync(configFile)) {
 }
 
 // Global configuration.
-app.engine('html', exphbs({ defaultLayout: 'main.html', helpers: helpers }) );
+app.engine('html', exphbs({ defaultLayout: 'main.html', helpers: helpers}) );
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 

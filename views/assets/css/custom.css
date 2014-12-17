@@ -29,9 +29,10 @@ dl dd { display:block; }
 
 .torrent .magnet { display:block; }
 .center { text-align: center; }
+.top-margin { padding-top: 52px; }
 
 @font-face {
   font-family: 'tpb';
-  src: url('fonts/tpb.woff') format('woff'), /* Pretty Modern Browsers */
-    url('fonts/tpb.ttf')  format('truetype'); /* Safari, Android, iOS */
+  src: url('../fonts/tpb.woff') format('woff'), /* Pretty Modern Browsers */
+    url('../fonts/tpb.ttf')  format('truetype'); /* Safari, Android, iOS */
 }

@@ -5,6 +5,7 @@ app.get("/torrent", function (req, res) {
   app.search(query, {}, function (err, results) {
     var torrent;
 
+    res.locals.is_home = false;
     if (err) {
       res.send(500, err);
     } else {
