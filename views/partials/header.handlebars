@@ -1,0 +1,20 @@
+<header class="row">
+  {{#if header}}
+    <div class="col-sm-4">
+      <a href="/"><img src="img/thepiratesbey-hor.png" alt="The Pirate\'s Bey" /></a>
+    </div>
+    <form action="/search" method="get" id="search">
+      <div class="col-sm-5 top-margin">
+        <input id="top-search-field" class="form-control" type="text" name="q" placeHolder="Pirate Search">
+      </div>
+      <div class="col-sm-3 top-margin">
+        <input type="submit" accesskey="s" value="Pirate Search" title="Pirate Search">
+      </div>
+    </form>
+  {{else}}
+    <div class="col-sm-12">
+      <a class="flag ar pull-right" href="?lang=es"><!-- AR flag --></a>
+      <a class="flag uk pull-right" href="?lang=en"><!-- UK flag --></a>
+    </div>
+  {{/if}}
+</header>

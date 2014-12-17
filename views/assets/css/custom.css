@@ -11,9 +11,9 @@ html, body {font-family: Arial, Helvetica, sans-serif; color: #472511; font-size
 dl dt { float: left; display:block; width: 140px; font-weight: bold; }
 dl dd { display:block; }
 
-.torrent { 
-  margin: 0; 
-  padding: 10px 0 2px 0; 
+.torrent {
+  margin: 0;
+  padding: 10px 0 2px 0;
   background-color: #F6F1EE;
   border-bottom: 1px solid white;
 }
@@ -35,4 +35,19 @@ dl dd { display:block; }
   font-family: 'tpb';
   src: url('../fonts/tpb.woff') format('woff'), /* Pretty Modern Browsers */
     url('../fonts/tpb.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+.flag {
+  background: url(../img/flags.gif) no-repeat 0;
+  display: block;
+  height: 24px;
+  width: 32px;
+}
+
+.flag.ar {
+  background-position: 0 -96px;
+}
+
+.flag.uk {
+  background-position: 0 -120px;
 }

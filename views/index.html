@@ -3,16 +3,22 @@
 </div>
 <div id="main-search">
 	<form action="/search" method="get" id="search">
-		<input id="main-search-field" type="text" name="q" placeHolder="Pirate Search" />
-		<p><input type="submit" accesskey="s" value="Pirate Search" title="Pirate Search"></input>
-		<input type="submit" value="I'm Feeling Lucky" name="lucky" title="I'm Feeling Lucky"></input></p>
+		<input id="main-search-field"
+      type="text"
+      name="q"
+      placeHolder="{{{__ "index.search"}}}" />
+		<p>
+      <input type="submit"
+        accesskey="s"
+        value="{{{__ "index.search"}}}"
+        title="{{{__ "index.search"}}}"></input>
+		  <input type="submit"
+        value="{{{__ "index.luckySearch"}}}"
+        name="lucky"
+        title="{{{__ "index.luckySearch"}}}"></input>
+    </p>
 	</form>
 </div>
 <div id="arenga">
-<p>Ellos nos vilifican, esos infames, cuando sólo existe
-esta diferencia, ellos roban a los pobres bajo la cobertura
-de la ley, ciertamente, y nosotros saqueamos a los ricos
-bajo la protección de nuestro propio valor.</p>
-<p>¿No has de preferir convertirte en uno de nosotros, antes
-que pordiosear tras estos villanos por prebendas?</p>
+  {{{__ "index.arenga"}}}
 </div>
