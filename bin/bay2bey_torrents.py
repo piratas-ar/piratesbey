@@ -4,6 +4,79 @@ import asyncio, aiohttp, re, time
 
 exec(open("./db.py").read())
 
+def get_size(page):
+  m = re.search('dt>Size:</dt[^<]*<dd>(.*?)<', page)
+  if m:
+    size = m.group(1)
+    size = size.replace('&nbsp;',' ')
+    size = size.replace('i','')
+  else:
+    size = '0'
+
+  if size.find('TB') != -1:
+    size= int(float(size.rstrip('TB'))*1024*1024*1024*1024)
+  elif size.find('GB') != -1:
+    size= int(float(size.rstrip('GB'))*1024*1024*1024)
+  elif size.find('MB') != -1:
+    size= int(float(size.rstrip('MB'))*1024*1024)
+  elif size.find('KB') != -1:
+    size= int(float(size.rstrip('KB'))*1024)
+  elif size.find('B') != -1:
+    size= int(float(size.rstrip('B')))
+  else:
+    size= 0
+  return size
+
+def get_nfo(tree):
+  nfo = tree.xpath('//div[@class="nfo"]/pre')[0]
+  nfo = html.tostring(nfo)
+  nfo = nfo.strip()
+  nfo = str(nfo[5:-6])
+  return nfo
+
+def get_uploaded(page):
+  m = re.search('dt>Uploaded:</dt[^<]*<dd>(.*?)<', page)
+  raw_date= m.group(1)
+  if m:
+    if raw_date.find('-') != -1 and raw_date.find(',') == -1:
+      dt = datetime.strptime(m.group(1),'%Y-%m-%d %H:%M:%S')
+    elif raw_date.find('-') == -1 and raw_date.find(',') != -1:
+      dt = datetime.strptime(m.group(1),'%b %d, %Y')
+    else:
+      print('unknown date format ' + raw_date)
+
+    f = '%Y-%m-%d %H:%M:%S'
+    uploaded = dt.strftime(f)
+  else:
+    uploaded = ''
+  return uploaded
+
+def get_title(tree):
+  title = tree.xpath('//div[@id="title"]/text()')
+  if title: 
+    title = title[0].strip(' \n\r\t\f\\n\\r\\t\\f')
+  else:
+    title = tree.xpath('//div[@id="title"]/a/text()')[0].strip(' \n\r\t\f\\n\\r\\t\\f')
+  return title
+
+def get_seeders(page):
+  m = re.search('dt>Seeders:</dt[^<]*<dd>(.*?)<', page)
+  raw_seeders= m.group(1)
+  if m:
+    seeders = int(raw_seeders)
+  else:
+    seeders = 0
+  return seeders
+
+def get_leechers(page):
+  m = re.search('dt>Leechers:</dt[^<]*<dd>(.*?)<', page)
+  raw_leechers= m.group(1)
+  if m:
+    leechers = int(raw_leechers)
+  else:
+    leechers = 0
+  return leechers
+
 def process_torrent_bay(page, source):
   try:
     tree = html.fromstring(page)
@@ -18,55 +91,19 @@ def process_torrent_bay(page, source):
       if m:
         hash = m.group(1)
 
-        title = tree.xpath('//div[@id="title"]/text()')
-        if title: 
-          title = title[0].strip(' \n\r\t\f\\n\\r\\t\\f')
-        else:
-          title = tree.xpath('//div[@id="title"]/a/text()')[0].strip(' \n\r\t\f\\n\\r\\t\\f')
+        title = get_title(tree)
+        uploaded = get_uploaded(page)
+        size = get_size(page)
+        nfo = get_nfo(tree)
+        seeders = get_seeders(page)
+        leechers = get_leechers(page)
 
-        m = re.search('dt>Uploaded:</dt[^<]*<dd>(.*?)<', page)
-        raw_date= m.group(1)
-        if m:
-          if raw_date.find('-') != -1 and raw_date.find(',') == -1:
-            dt = datetime.strptime(m.group(1),'%Y-%m-%d %H:%M:%S')
-          elif raw_date.find('-') == -1 and raw_date.find(',') != -1:
-            dt = datetime.strptime(m.group(1),'%b %d, %Y')
-          else:
-            print('unknown date format ' + raw_date)
-
-          f = '%Y-%m-%d %H:%M:%S'
-          uploaded = dt.strftime(f)
-        else:
-          uploaded = ''
-
-        m = re.search('dt>Size:</dt[^<]*<dd>(.*?)<', page)
-        if m:
-          size = m.group(1)
-          size = size.replace('&nbsp;',' ')
-          size = size.replace('i','')
-        else:
-          size = '0'
-
-        if size.find('TB') != -1:
-          size= int(float(size.rstrip('TB'))*1024*1024*1024*1024)
-        elif size.find('GB') != -1:
-          size= int(float(size.rstrip('GB'))*1024*1024*1024)
-        elif size.find('MB') != -1:
-          size= int(float(size.rstrip('MB'))*1024*1024)
-        elif size.find('KB') != -1:
-          size= int(float(size.rstrip('KB'))*1024)
-        elif size.find('B') != -1:
-          size= int(float(size.rstrip('B')))
-        else:
-          size= 0
-
-        nfo = tree.xpath('//div[@class="nfo"]/pre')[0]
-        nfo = html.tostring(nfo)
-        nfo = nfo.strip()
-        nfo = str(nfo[5:-6])
-
-        save_torrent(uploaded, hash, source, str(title), size, nfo)
-        con.commit()
+        id = save_torrent(uploaded, hash, source, str(title), size, nfo, seeders, leechers)
+        if id:
+          comments = tree.xpath('//div[@id="comments"]/div')
+          for comment in comments:
+            print(comment)
+          
         print(source)
   except Exception as err:
     print(err)
