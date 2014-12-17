@@ -24,7 +24,8 @@
     "express-handlebars": "*",
     "extend": "*",
     "find-java-home": "*",
-    "i18n": "*"
+    "i18n": "*",
+    "async": "*"
   },
   "devDependencies": {
     "request": "*",
