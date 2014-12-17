@@ -3,5 +3,19 @@
     "arenga": "Ellos nos vilifican, esos infames, cuando sólo existe esta diferencia: ellos roban a los pobres bajo la cobertura de la ley, ciertamente, y nosotros saqueamos a los ricos bajo la protección de nuestro propio valor. ¿No has de preferir convertirte en uno de nosotros, antes que pordiosear tras estos villanos por prebendas?",
     "search": "Búsqueda Pirata",
     "luckySearch": "Voy a tener suerte"
+  },
+  "torrent": {
+    "uploaded": "Subido:",
+    "size": "Tamaño:",
+    "infohash": "Info Hash:",
+    "source": "Fuente:"
+  },
+  "main": {
+    "download": "Descarga este torrent",
+    "results": "resultados",
+    "about": "Sobre nosotras"
+  },
+  "about": {
+    "body": "Estamos trabajando (desde el Partido Pirata de Argentina) en obtener una copia completa de The Pirate Bay y ponerlo nuevamente en funcionamiento sin publicidades, libre y gratis. Tenemos los comentarios hasta febrero 2013, las descripciones hasta junio del 2013 y los titulos y torrents hasta septiembre de 2014, nos podes ayudar escrapeando un pedazo de los torrents faltantes. \n\nEl código fuente y herramientas para cargar los backups y escrapear TPB asi como poner a funcionar una copia de este sitio estan disponibles en https://github.com/piratas-ar/piratesbey"
   }
 }

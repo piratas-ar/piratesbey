@@ -1,11 +1,13 @@
 <article class="torrent">
   <h1 class="title">{{torrent.title}}</h1>
   <dl>
-    <dt>Uploaded</dt>
+    <dt>{{{__ "torrent.uploaded"}}}</dt>
     <dd>{{formatDate torrent.uploaded}}</dd>
-    <dt>Size</dt>
+    <dt>{{{__ "torrent.size"}}}</dt>
     <dd>{{size torrent.size}}</dd>
-    <dt>Info Hash:</dt>
+    <dt>{{{__ "torrent.source"}}}</dt>
+    <dd>{{torrent.source}}</dd>
+    <dt>{{{__ "torrent.infohash"}}}</dt>
     <dd>{{torrent.hash}}</dd>
   </dl>
   <p>{{{magnet torrent.hash 'big'}}}</p>

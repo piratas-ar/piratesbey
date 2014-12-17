@@ -13,7 +13,7 @@ dl dd { display:block; }
 
 .torrent {
   margin: 0;
-  padding: 10px 0 2px 0;
+  padding: 10px 4px 2px 4px;
   background-color: #F6F1EE;
   border-bottom: 1px solid white;
 }
@@ -21,6 +21,7 @@ dl dd { display:block; }
 .torrent .title {
   font-size: 1.3em;
   display:block;
+  margin-top: 8px;
 }
 
 .small-font {

@@ -1,7 +1,21 @@
 {
   "index": {
-    "arenga": "They say we are evil, those infamous, when there is only a difference: they steal to poors under the protection of the law, and we loot the richs under the protection of our own strength. Don't you prefer to become one of us instead of begging to the villains for prebends?",
+    "arenga": "They vilify us, the scoundrels do, when there is only this difference, they rob the poor under the cover of law, forsooth, and we plunder the rich under the protection of our own courage. Had you not better make then one of us, than sneak af ter these villains for employment? ",
     "search": "Pirate Search",
     "luckySearch": "I'm Feeling Lucky"
+  },
+  "torrent": {
+    "uploaded": "Uploaded:",
+    "size": "Size:",
+    "source": "Source:",
+    "infohash": "Info Hash:"
+  },
+  "main": {
+    "download": "Download this torrent",
+    "results": "results",
+    "about": "About Us"
+  },
+  "about": {
+    "body": "We are working on getting a complete backup of The Pirate Bay and getting it back without ads, free and for free. We have comments til february 2013, descriptions til june 2013 and torrents/titles til september 2014, you can help us scrapping a piece of the missing torrents. \n \nThe source code and tools for loading the backups and scrapping TPB as well as getting a copy of this site up and running is available on https://github.com/piratas-ar/piratesbey"
   }
 }
