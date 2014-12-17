@@ -23,7 +23,8 @@
     "elasticsearch": "*",
     "express-handlebars": "*",
     "extend": "*",
-    "find-java-home": "*"
+    "find-java-home": "*",
+    "i18n": "*"
   },
   "devDependencies": {
     "request": "*",

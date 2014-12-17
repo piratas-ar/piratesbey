@@ -2,10 +2,16 @@ var path = require("path");
 var fs = require("fs");
 var express = require('express');
 var exphbs  = require('express-handlebars');
-var helpers = require('./lib/helpers');
+var hbs = exphbs.create({
+  defaultLayout: 'main.html',
+  helpers: require('./lib/helpers'),
+  partialsDir: __dirname + "/views/partials"
+});
 var DataSource = require("./lib/DataSource");
 var PirateNode = require("./lib/PirateNode");
 var extend = require("extend");
+var i18n = require("i18n");
+
 var node;
 var env = process.env.NODE_ENV;
 var configFile = path.join(__dirname, "config." + env + ".json");
@@ -24,18 +30,22 @@ if (fs.existsSync(configFile)) {
     JSON.parse(fs.readFileSync(configFile).toString()));
 }
 
-// Global configuration.
-app.engine('html', exphbs({ defaultLayout: 'main.html', helpers: helpers}) );
+// Views configuration.
+app.engine('html', hbs.engine);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
+app.locals = {
+  header: true
+};
 
+// Middlewares
 app.use(express.cookieParser());
 app.use(express.bodyParser({
   keepExtensions: true,
   uploadDir: __dirname + '/tmp'
 }));
-
 app.use(express.static(path.join(__dirname, "views", "/assets")));
+
 
 // Loads all application files.
 fs.readdir(path.join(__dirname, "app"), function (err, files) {
@@ -52,6 +62,17 @@ fs.readdir(path.join(__dirname, "app"), function (err, files) {
   });
 });
 
+// Internationalization config.
+i18n.configure({
+  locales: ["en", "es"],
+  directory: __dirname + "/lang",
+  objectNotation: true,
+  cookie: "lang",
+  indent: "  "
+});
+app.use(i18n.init);
+app.use(require("./app/langMiddleware"));
+
 node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"),
   app.config);
 
@@ -66,7 +87,7 @@ node.start(function () {
 
   console.log('Enviroment: ' + env)
 
-  if (env !== "production" && env != "staging" ) {
+  if (env !== "production" && env !== "staging" ) {
     console.log("Loading test data...");
 
     dataSource.setupDatabase(function (err) {
@@ -87,17 +108,11 @@ node.start(function () {
         console.log("Application ready at http://localhost:1337");
       });
     });
- } else {
-/* Descomentar para regenerar indices
-   node.setupIndex(function (err) {
-      if (err) {
-        throw err;
-      } */
-      app.search = node.search;
-      app.fullSearch = node.fullSearch;
-      app.listen(1337);
-      console.log("Application ready at http://localhost:1337");
-//    });
+  } else {
+    app.search = node.search;
+    app.fullSearch = node.fullSearch;
+    app.listen(1337);
+    console.log("Application ready at http://localhost:1337");
   }
 });
 
