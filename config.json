@@ -1,6 +1,8 @@
 {
   "bindAddress": "127.0.0.1",
   "master": true,
+  "regenerateDatabase": true,
+  "regenerateIndex": true,
   "dataSource": {
     "url": "mysql://localhost:3306/piratesbey_dev",
     "host": "localhost",

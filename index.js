@@ -11,9 +11,10 @@ var DataSource = require("./lib/DataSource");
 var PirateNode = require("./lib/PirateNode");
 var extend = require("extend");
 var i18n = require("i18n");
+var async = require("async");
 
 var node;
-var env = process.env.NODE_ENV;
+var env = process.env.NODE_ENV || "development";
 var configFile = path.join(__dirname, "config." + env + ".json");
 var shutdown = function () {
   node.shutdown(function () {
@@ -21,6 +22,8 @@ var shutdown = function () {
     process.exit();
   });
 };
+
+console.log('Enviroment: ' + env)
 
 app = express();
 app.config = JSON.parse(fs.readFileSync("config.json").toString());
@@ -79,41 +82,35 @@ node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"),
 console.log("Starting elastic search instance...");
 node.start(function () {
   var dataSource = new DataSource(app.config);
+  var initProcs = [];
 
   process.on('SIGINT', function() {
     console.log("Stopping elastic search node...");
     shutdown();
   });
 
-  console.log('Enviroment: ' + env)
+  if (app.config.regenerateDatabase) {
+    console.log("Creating database...");
 
-  if (env !== "production" && env !== "staging" ) {
-    console.log("Loading test data...");
-
-    dataSource.setupDatabase(function (err) {
-      if (err) {
-        shutdown();
-        console.trace(err);
-        return;
-      }
-      console.log("Creating index...");
-
-      node.setupIndex(function (err) {
-        if (err) {
-          throw err;
-        }
-        app.search = node.search;
-        app.fullSearch = node.fullSearch;
-        app.listen(1337);
-        console.log("Application ready at http://localhost:1337");
-      });
-    });
-  } else {
-    app.search = node.search;
-    app.fullSearch = node.fullSearch;
-    app.listen(1337);
-    console.log("Application ready at http://localhost:1337");
+    initProcs.push(dataSource.setupDatabase);
   }
+  if (app.config.regenerateIndex) {
+    console.log("Creating index...");
+
+    initProcs.push(node.setupIndex);
+  }
+
+  async.series(initProcs, function (err) {
+    if (err) {
+      shutdown();
+      console.trace(err);
+    } else {
+      app.search = node.search;
+      app.fullSearch = node.fullSearch;
+      app.listen(1337);
+      console.log("Application ready at http://localhost:1337");
+    }
+  });
 });
 
 node.on("error", function (err) {
