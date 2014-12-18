@@ -2,7 +2,7 @@ app.get("/search", function (req, res) {
   var query = req.param("q");
   var from = req.param("f");
 
-  app.search(query, { from: from }, function (err, results) {
+  app.fullSearch(query, { from: from, size: 25}, function (err, results) {
     res.locals.is_home = false;
     if (err) {
       res.send(500, err);
