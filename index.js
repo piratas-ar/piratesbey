@@ -16,11 +16,19 @@ var async = require("async");
 var node;
 var env = process.env.NODE_ENV || "development";
 var configFile = path.join(__dirname, "config." + env + ".json");
+var dataSource;
+var initProcs = [];
+
 var shutdown = function () {
-  node.shutdown(function () {
+  if (app.config.search.start) {
+    node.shutdown(function () {
+      console.log("Bye.");
+      process.exit();
+    });
+  } else {
     console.log("Bye.");
     process.exit();
-  });
+  }
 };
 
 console.log('Enviroment: ' + env)
@@ -76,43 +84,53 @@ i18n.configure({
 app.use(i18n.init);
 app.use(require("./app/langMiddleware"));
 
+dataSource = new DataSource(app.config);
 node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"),
   app.config);
 
-console.log("Starting elastic search instance...");
-node.start(function () {
-  var dataSource = new DataSource(app.config);
-  var initProcs = [];
-
-  process.on('SIGINT', function() {
-    console.log("Stopping elastic search node...");
-    shutdown();
-  });
-
-  if (app.config.regenerateDatabase) {
-    console.log("Creating database...");
-
-    initProcs.push(dataSource.setupDatabase);
-  }
-  if (app.config.regenerateIndex) {
-    console.log("Creating index...");
-
-    initProcs.push(node.setupIndex);
-  }
-
-  async.series(initProcs, function (err) {
-    if (err) {
-      shutdown();
-      console.trace(err);
-    } else {
-      app.search = node.search;
-      app.fullSearch = node.fullSearch;
-      app.listen(1337);
-      console.log("Application ready at http://localhost:1337");
-    }
-  });
+process.on('SIGINT', function() {
+  console.log("Stopping elastic search node...");
+  shutdown();
 });
-
 node.on("error", function (err) {
   console.log(err.toString());
+});
+
+if (app.config.search.start) {
+  initProcs.push(function (callback) {
+    console.log("Starting elastic search instance...");
+    node.start(callback);
+  });
+} else {
+  initProcs.push(function (callback) {
+    console.log("Connecting to elastic search instance...");
+    node.initialize();
+    process.nextTick(callback);
+  });
+}
+
+if (app.config.regenerateDatabase) {
+  initProcs.push(function (callback) {
+    console.log("Creating database...");
+    dataSource.setupDatabase(callback);
+  });
+}
+if (app.config.regenerateIndex) {
+
+  initProcs.push(function (callback) {
+    console.log("Creating index...");
+    node.setupIndex(callback);
+  });
+}
+
+async.series(initProcs, function (err) {
+  if (err) {
+    shutdown();
+    console.trace(err);
+  } else {
+    app.search = node.search;
+    app.fullSearch = node.fullSearch;
+    app.listen(1337);
+    console.log("Application ready at http://localhost:1337");
+  }
 });

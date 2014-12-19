@@ -1,6 +1,4 @@
 {
-  "bindAddress": "127.0.0.1",
-  "master": true,
   "regenerateDatabase": true,
   "regenerateIndex": true,
   "dataSource": {
@@ -9,5 +7,11 @@
     "user": "piratesbey",
     "password": "piratesbey",
     "database": "piratesbey_dev"
+  },
+  "search": {
+    "host": "127.0.0.1",
+    "port": 9200,
+    "master": true,
+    "start": true
   }
 }
