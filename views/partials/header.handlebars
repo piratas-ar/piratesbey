@@ -1,13 +1,13 @@
 <header class="container-fluid">
   {{#if header}}
-    <div class="col-sm-4">
+    <div class="col-sm-12 col-md-5">
       <a href="/"><img src="img/thepiratesbey-hor.png" alt="The Pirate\'s Bey" /></a>
     </div>
     <form action="/search" method="get" id="search">
-      <div class="col-sm-5 top-margin">
+      <div class="col-sm-8 col-md-5 top-margin">
         <input id="top-search-field" class="form-control" type="text" name="q" placeHolder="{{{__ "index.search"}}}">
       </div>
-      <div class="col-sm-3 top-margin">
+      <div class="col-sm-4 col-md-2 top-margin">
         <input type="submit" accesskey="s" value="{{{__ "index.search"}}}" title="{{{__ "index.search"}}}">
       </div>
     </form>
