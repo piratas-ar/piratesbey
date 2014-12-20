@@ -84,7 +84,6 @@ i18n.configure({
 app.use(i18n.init);
 app.use(require("./app/langMiddleware"));
 
-dataSource = new DataSource(app.config);
 node = new PirateNode(path.join(__dirname, "bin", "elasticsearch-1.3.6"),
   app.config);
 
@@ -110,6 +109,8 @@ if (app.config.search.start) {
 }
 
 if (app.config.regenerateDatabase) {
+  dataSource = new DataSource(app.config);
+
   initProcs.push(function (callback) {
     console.log("Creating database...");
     dataSource.setupDatabase(callback);
