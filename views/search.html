@@ -1,9 +1,13 @@
-{{{pagination results query from}}}
+{{>pagination}}
 
 {{#each results.hits}}
 <div class="torrent row">
   <div class="col-sm-1 center small-font">
-    <span class="magnet">{{{magnet hash 'small'}}}</span>
+    <span class="magnet">
+      <a href="{{{magnet hash}}}">
+        <img src="img/magnet.png" alt="{{{__ 'main.download'}}}">
+      </a>
+    </span>
     <span class="size">{{{size size}}}</span>
   </div>
   <div class="col-sm-10">
@@ -16,4 +20,4 @@
 </div>
 {{/each}}
 
-{{{pagination results query from}}}
+{{>pagination}}

@@ -10,6 +10,10 @@
     <dt>{{{__ "torrent.infohash"}}}</dt>
     <dd>{{torrent.hash}}</dd>
   </dl>
-  <p>{{{magnet torrent.hash 'big'}}}</p>
+  <p>
+    <a href="{{{magnet torrent.hash}}}">
+      <img src="img/big-download.png" alt="{{{__ 'main.download'}}}">
+    </a>
+  </p>
   <p><pre>{{{torrent.nfo}}}</pre></p>
 </article>

@@ -1,0 +1,8 @@
+<div class="paginator">
+  {{results.total}} {{{__ "main.results"}}}
+  {{#each paginator.pages}}
+    <a {{#if selected}}class="selected"{{/if}} href="search?q={{../query}}&f={{from}}">
+      {{number}}
+    </a>
+  {{/each}}
+</div>

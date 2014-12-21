@@ -52,3 +52,7 @@ dl dd { display:block; }
 .flag.uk {
   background-position: 0 -120px;
 }
+
+.paginator a.selected {
+  font-weight: bold;
+}
