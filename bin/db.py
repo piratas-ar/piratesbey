@@ -2,7 +2,7 @@ import mysql.connector as mdb
 
 # Connect to database
 try:
-  con = mdb.connect(host='localhost', user='root', passwd='', db='piratesbey');
+  con = mdb.connect(host='localhost', user='root', passwd='', db='laterbey');
   cur = con.cursor()
 
 except mdb.Error as e:
@@ -20,15 +20,19 @@ cur.execute('SET GLOBAL max_allowed_packet = 173741824')
 con.commit()
 
 # General database functions
-def save_torrent(uploaded, hash, source, title, size=0, nfo=''):
+def save_torrent(uploaded, hash, source, title, size=0, nfo='', seeders=0, leechers=0):
   add_torrent = ("INSERT INTO torrents "
-                "(uploaded, hash, source, title, size, nfo) "
-                "VALUES (%(uploaded)s, %(hash)s, %(source)s, %(title)s, %(size)s, %(nfo)s);")
+                "(uploaded, hash, source, title, size, nfo, seeders, leechers) "
+                "VALUES (%(uploaded)s, %(hash)s, %(source)s, %(title)s, %(size)s, %(nfo)s, %(seeders)s, %(leechers)s);")
   
   data_torrent = { 'uploaded': uploaded, 'hash': hash, 'source': source,
-'title': title, 'size': size, 'nfo': nfo }
+'title': title, 'size': size, 'nfo': nfo, 'seeders': seeders, 'leechers': leechers }
   
   cur.execute(add_torrent, data_torrent)
+  con.commit()
+
+  if cursor.lastrowid:
+    return cursor.lastrowid
 
 def get_torrent_by_source_url(source):
   get_torrent = ("SELECT * FROM torrents WHERE source = %(source)s LIMIT 1;")
