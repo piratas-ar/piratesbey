@@ -14,8 +14,9 @@
     "download": "Download this torrent",
     "results": "results",
     "about": "About Us",
-    "guide": "P2P Guide",
-    "database": "Database"
+    "guide": "How to download?",
+    "database": "Database",
+    "code": "Code"
   },
   "about": {
     "body": "We are working (at the Pirate Party of Argentina) on getting a complete backup of The Pirate Bay and getting it back without ads, free and for free. We have comments til february 2013, descriptions til june 2013 and torrents/titles til september 2014, you can help us scrapping a piece of the missing torrents. \n \nThe source code and tools for loading the backups and scrapping TPB as well as getting a copy of this site up and running is available on https://github.com/piratas-ar/piratesbey"
