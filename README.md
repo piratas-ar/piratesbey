@@ -1,8 +1,18 @@
+<a href="README.en.md">Read this in English</a>
 
 Gracias a archive.org, tpb archive, Karel Bilek y Rick Falkvinge por la
 diferente data y scripts.
 
-# Sources
+# Copia de la base de datos
+
+Esta base de datos esta compuesta por diferentes backups y escrapeos que
+hicimos, podes colaborar con los torrents faltantes.
+
+```
+magnet:?xt=urn:btih:d508374e1f8efb47e47fb5e85f1fbdc412215190&dn=tpb-2014-12-23&tr=http%3A%2F%2Fdb.tpb.partidopirata.com.ar%3A12345%2Fannounce
+```
+
+# Fuentes
 
 Archivos fuentes en formato compatible actualizados seran liberados como
 torrent, mientras tanto:
@@ -13,19 +23,19 @@ torrent, mientras tanto:
 
 # The Pirate's Bey
 
-Requirements:
+Requerimientos:
 
 * Node JS
 
-* Java 7 (for elasticsearch)
+* Java 7 (para elasticsearch)
 
-Running the application:
+Corriendo la aplicación:
 
-1. Clone this repository
+1. Clona el repositorio
 
-2. Run ```npm install```
+2. Corre ```npm install```
 
-3. Setup the database using your mysql client
+3. Crea la base de datos con tu cliente mysql
 
 ```
 create database piratesbey_dev;
@@ -34,22 +44,22 @@ by 'piratesbey';
 flush privileges;
 ```
 
-4. Run ```node index.js``` and check out the app at ```http://localhost:1337```
+4. Corre ```node index.js``` y visita la aplicación en ```http://localhost:1337```
 
-## Search engine
+## Motor de búsquedas
 
-It uses [Elastic Search](http://www.elasticsearch.org/overview/elasticsearch) to
-create a distributed search engine for torrents. Anyone will be able to join the
-network to host the bigger torrents database in the world.
+Usa [Elastic Search](http://www.elasticsearch.org/overview/elasticsearch)  para 
+crear un motor de busquedas de torrents distribuido. Cualquiera podrá unirse a
+la red para hostear la base de datos de torrents mas grande del mundo.
 
-The search engine is embedded into the application, so you just need to follow
-the installation instructions and the site will use it by default.
+El motor de búsqueda esta embebido en la aplicación, asi que solo necesitas
+seguir las instrucciones de instalación y el sitio lo usara por default.
 
-New torrents added to the database will be automatically synchronized with the
-search engine.
+Los nuevos torrents agregados a la base de datos se sincronizaran
+automaticamente con el motor de búsqueda.
 
-Remember to configure your firewall to allow connections from ports 9200:9400 in
-order to make the nodes see each other in the cluster.
+Recuerda configurar tu firewall para permitir conexiones de los puertos
+9200:9400 para que los nodos se vean entre ellos.
 
 # Cargar Sources y Scrapear TPB(s)
 
